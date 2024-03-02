@@ -3,7 +3,6 @@ import 'database_helper.dart';
 import '/screens/signup_screen.dart';
 import '/screens/join_group.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -31,9 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // Navigate to ChooseGroup screen
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => ChooseGroup()), // Correct screen reference
+          MaterialPageRoute(builder: (context) => ChooseGroup()), // Ensure you have a correct reference for ChooseGroup
         );
-
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Invalid username or password')),
@@ -41,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const FlutterLogo(size: 100),
+                // Replace the FlutterLogo with Image.asset
+                Image.asset('images/Screenshot 2024-02-26 092709.png',), // Make sure the path matches your image file
+
                 const SizedBox(height: 20),
                 TextFormField(
                   decoration: _inputDecoration(Icons.person, 'Username'),
@@ -106,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
       labelText: label,
       prefixIcon: Icon(icon),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30), // Rounded corners
+        borderRadius: BorderRadius.circular(30),
       ),
       enabledBorder: OutlineInputBorder(
         borderSide: const BorderSide(color: Colors.black),
