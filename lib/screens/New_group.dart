@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'database_helper.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -30,7 +30,61 @@ class AddMembers extends StatefulWidget {
 class _AddMembersState extends State<AddMembers> {
   final TextEditingController _groupNameController = TextEditingController();
   final TextEditingController _memberNameController = TextEditingController();
-  List<TextEditingController> _memberControllers = []; // List to hold controllers for member inputs
+  List<TextEditingController> _memberControllers = [];
+  final int _maxMembers = 10;
+  bool _isEditMode = false;
+
+
+  Future<List<Map<String, dynamic>>> _fetchGroups() async {
+    return await DatabaseHelper.instance.queryAllGroups();
+  }
+
+  Future<void> _saveGroup() async {
+    String groupName = _groupNameController.text.trim();
+    String currency = _selectedCurrency ?? 'USD'; // Default to USD if null
+    // Join member names with a comma
+    String members = _memberControllers.map((controller) =>
+        controller.text.trim()).join(',');
+
+    if (groupName.isEmpty || members.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Group name and members are required.'),
+        duration: Duration(seconds: 2),
+      ));
+      return;
+    }
+
+    // Prepare the data row for the database
+    Map<String, dynamic> row = {
+      'Gname': groupName,
+      'currency': currency,
+      'members': members,
+    };
+
+    // Use DatabaseHelper to insert the group
+    try {
+      final id = await DatabaseHelper.instance.insertGroup(row);
+      print('Inserted group id: $id');
+
+      // Optionally, clear the form or navigate to a different page after saving
+      _groupNameController.clear();
+      _memberControllers.forEach((controller) => controller.clear());
+      _selectedCurrency = null;
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Group saved successfully.'),
+        duration: Duration(seconds: 2),
+      ));
+
+      // Optionally, navigate away or reset the form
+    } catch (e) {
+      print('Error saving group: $e');
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Failed to save the group.'),
+        duration: Duration(seconds: 2),
+      ));
+    }
+  } // List to hold controllers for member inputs
   String? _selectedCurrency;
 
   final List<String> _currencies = [
@@ -58,9 +112,36 @@ class _AddMembersState extends State<AddMembers> {
   }
 
   void _addMember() {
-    setState(() {
-      _memberControllers.add(TextEditingController());
-    });
+    // Check if there are already members added
+    if (_memberControllers.isNotEmpty) {
+      // Check if the last member name entered is empty
+      if (_memberControllers.last.text.isEmpty) {
+        // Show warning message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+                'Please enter the member name before adding another.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        return; // Exit the method to prevent a new member from being added
+      }
+    }
+
+    // Proceed to add a new member if the checks pass
+    if (_memberControllers.length >= _maxMembers) {
+      // Show a message that the limit has been reached
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Member limit has been reached.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      setState(() {
+        _memberControllers.add(TextEditingController());
+      });
+    }
   }
 
   @override
@@ -111,10 +192,12 @@ class _AddMembersState extends State<AddMembers> {
                     dropdownColor: const Color(0xB2789DCB),
                     borderRadius: const BorderRadius.all(Radius.circular(30)),
                     isExpanded: true,
-                    items: _currencies.map<DropdownMenuItem<String>>((String value) {
+                    items: _currencies.map<DropdownMenuItem<String>>((
+                        String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value, style: const TextStyle(color: Colors.white)),
+                        child: Text(
+                            value, style: const TextStyle(color: Colors.white)),
                       );
                     }).toList(),
                     onChanged: (String? newValue) {
@@ -122,23 +205,25 @@ class _AddMembersState extends State<AddMembers> {
                         _selectedCurrency = newValue;
                       });
                     },
-                    hint: Text("Select Currency", style: TextStyle(color: Colors.white.withOpacity(0.6))),
+                    hint: Text("Select Currency",
+                        style: TextStyle(color: Colors.white.withOpacity(0.6))),
                   ),
                 ),
               ),
             ),
 
-            ..._memberControllers.map((controller) => buildMemberInputField(controller)).toList(),
+            ..._memberControllers.map((controller) =>
+                buildMemberInputField(controller)).toList(),
             TextButton(
               onPressed: _addMember,
-              child: const Text('Add Member', style: TextStyle(color: Colors.white)),
+              child: const Text(
+                  'Add Member', style: TextStyle(color: Colors.white)),
               style: TextButton.styleFrom(backgroundColor: Colors.blue),
             ),
             TextButton(
-              onPressed: () {
-                print('Proceed');
-              },
-              child: const Text('Proceed', style: TextStyle(color: Colors.white)),
+              onPressed: _saveGroup,
+              child: const Text(
+                  'Proceed', style: TextStyle(color: Colors.white)),
               style: TextButton.styleFrom(backgroundColor: Colors.green),
             ),
           ],
@@ -153,7 +238,8 @@ class _AddMembersState extends State<AddMembers> {
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xB2298CFF), // Your chosen container color
-          borderRadius: BorderRadius.all(Radius.circular(30)), // Rounded corners for the container
+          borderRadius: BorderRadius.all(
+              Radius.circular(30)), // Rounded corners for the container
         ),
         child: Row(
           children: [
@@ -164,15 +250,19 @@ class _AddMembersState extends State<AddMembers> {
                   hintText: 'Member Name',
                   fillColor: Color(0xB2298CFF),
                   filled: true,
-                  border: InputBorder.none, // Remove the underline border of the TextField
-                  contentPadding: EdgeInsets.only(left: 20), // Adjust padding as needed
+                  border: InputBorder.none,
+                  // Remove the underline border of the TextField
+                  contentPadding: EdgeInsets.only(left: 20),
+                  // Adjust padding as needed
                   hintStyle: TextStyle(color: Colors.white70),
                 ),
               ),
             ),
             IconButton(
               icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
-              onPressed: () => _removeMember(controller), // Call _removeMember when the icon is tapped
+              onPressed: () =>
+                  _removeMember(
+                      controller), // Call _removeMember when the icon is tapped
             ),
           ],
         ),
@@ -191,17 +281,14 @@ class _AddMembersState extends State<AddMembers> {
   }
 
 
-
   Drawer buildCustomDrawer(BuildContext context) {
     return Drawer(
       child: Column(
         children: [
           Container(
             height: 180,
-            decoration: const BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: const DrawerHeader(
+            decoration: const BoxDecoration(color: Colors.blue),
+            child: DrawerHeader(
               margin: EdgeInsets.zero,
               padding: EdgeInsets.zero,
               child: Stack(
@@ -222,29 +309,57 @@ class _AddMembersState extends State<AddMembers> {
                   Positioned(
                     right: 10,
                     top: 10,
-                    child: Icon(Icons.edit, size: 38, color: Colors.white),
+                    child: IconButton(
+                      icon: Icon(Icons.edit, size: 38, color: Colors.white),
+                      onPressed: () {
+                        setState(() {
+                          _isEditMode = !_isEditMode;
+                        });
+                      },
+                    ),
                   ),
-
                 ],
               ),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.group, color: Colors.black),
-            title: const Text('Group 1'),
-            onTap: () {
-              Navigator.pop(context);
-            },
+          Expanded(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: _fetchGroups(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return const Text('Error fetching groups');
+                } else {
+                  final groups = snapshot.data ?? [];
+                  return ListView.builder(
+                    itemCount: groups.length,
+                    itemBuilder: (context, index) {
+                      final group = groups[index];
+                      return ListTile(
+                        leading: const Icon(Icons.group, color: Colors.black),
+                        title: Text(group['Gname'] ?? 'No Name'),
+                        trailing: _isEditMode
+                            ? IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red),
+                          onPressed: () {
+                            // Add your deletion logic here
+                          },
+                        )
+                            : null,
+                        onTap: () {
+                          if (!_isEditMode) {
+                            Navigator.pop(context);
+                            // Navigate to group detail page if needed
+                          }
+                        },
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.group, color: Colors.black),
-            title: const Text('Group 2'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          const Spacer(),
-
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 20),
@@ -265,6 +380,4 @@ class _AddMembersState extends State<AddMembers> {
       ),
     );
   }
-
-
-  }
+}
