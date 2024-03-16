@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:untitled1/screens/join_group.dart';
+import 'package:untitled1/screens/signup_screen.dart';
 import 'database_helper.dart';
-import '/screens/signup_screen.dart';
-import '/screens/join_group.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
