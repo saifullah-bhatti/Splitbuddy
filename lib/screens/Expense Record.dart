@@ -1,36 +1,336 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../helper/custom_drawer.dart';
+import '../helper/navigation_menu.dart';
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: MyCustomWidget(),
+        key: _scaffoldKey,
+        drawer: const CustomDrawer(),
+        body: const MyCustomWidget(),
       ),
     );
   }
 }
 
 class MyCustomWidget extends StatelessWidget {
+  const MyCustomWidget({Key? key}) : super(key: key);
+  Widget buildMoreVertContent() {
+    return Container(
+      width: 221,
+      height: 252,
+      clipBehavior: Clip.hardEdge,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+
+
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: 221,
+                height: 252,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned(
+                      left: 24,
+                      top: 20,
+                      child: Container(
+                        width: 173,
+                        height: 45,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: const Color(0x7F298CFF),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 24,
+                      top: 74,
+                      child: Container(
+                        width: 173,
+                        height: 45,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: const Color(0x7F298CFF),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 51,
+                      top: 83,
+                      child: Text(
+                        'Change name',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.none, // Explicitly set no text decoration
+                        ),
+                      ),
+
+                    ),
+                    Positioned(
+                      left: 24,
+                      top: 182,
+                      child: Container(
+                        width: 173,
+                        height: 45,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: const Color(0x7F298CFF),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 24,
+                      top: 128,
+                      child: Container(
+                        width: 173,
+                        height: 45,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: const Color(0x7F298CFF),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 36,
+                      top: 138,
+                      child: Text(
+                        'Change Currency',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.none, // Explicitly set no text decoration
+                        ),
+                      ),
+
+                    ),
+                    Positioned(
+                      left: 37,
+                      top: 29,
+                      child: Text(
+                        'Total expenditures',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.none, // Explicitly set no text decoration
+                        ),
+                      ),
+
+                    ),
+                    Positioned(
+                      left: 57,
+                      top: 191,
+                      child: Text(
+                        'Leave Group',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.none, // Explicitly set no text decoration
+                        ),
+                      ),
+
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Widget buildPopupMenuContent() {
+    return Container(
+      width: 280,
+      height: 181,
+      clipBehavior: Clip.hardEdge,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(16),
+        ),
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: 276,
+                height: 179,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    const Positioned(
+                      left: 222,
+                      top: 119,
+                      child: Icon(
+                        Icons.person,
+                        size: 40,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Positioned(
+                      left: 131,
+                      top: 123,
+                      child: Text(
+                        'New person',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 41,
+                      top: 141,
+                      child: Text(
+                        'Somebody to split costs with',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w200,
+                        ),
+                      ),
+                    ),
+                    const Positioned(
+                      left: 223,
+                      top: 70,
+                      child: Icon(
+                        Icons.add_circle,
+                        size: 40,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const Positioned(
+                      left: 227,
+                      top: 20,
+                      child: Icon(
+                        Icons.monetization_on,
+                        size: 40,
+                        color: Colors.black,
+                      ),
+                    ),
+
+                    Positioned(
+                      left: 121,
+                      top: 24,
+                      child: Text(
+                        'New expense',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 118,
+                      top: 73,
+                      child: Text(
+                        'New payment',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 28,
+                      top: 39,
+                      child: Text(
+                        'A purchase made for the group',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w200,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 54,
+                      top: 88,
+                      child: Text(
+                        'A payment within the group',
+                        style: GoogleFonts.getFont(
+                          'Poppins',
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w200,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
-    // Get screen size
-    final screenSize = MediaQuery.of(context).size;
-    final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height;
-
-    // Define sizes based on screen width or height
-    final buttonWidth = screenWidth * 0.30; // Example for 30% of the screen width
-    final buttonHeight = screenHeight * 0.06; // Example for 6% of the screen height
 
     return Container(
-      width: screenWidth,
-      height: screenHeight,
+      width: 360,
+      height: 800,
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         color: Color(0xFFFCFCFC),
@@ -42,7 +342,7 @@ class MyCustomWidget extends StatelessWidget {
           children: [
             Positioned(
               left: 64,
-              top: 32,
+              top: 40,
               child: Container(
                 width: 231,
                 height: 61,
@@ -79,37 +379,35 @@ class MyCustomWidget extends StatelessWidget {
                 ),
               ),
             ),
-
             Positioned(
-              left: 180,
-              top: 115,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: const Color(0xB2298CFF), // Text color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 11.0, horizontal: 18.0), // Adjust based on your design
-                ),
-                onPressed: () {
-                  // Define what happens when the button is tapped
-                  print('Expenses button pressed');
-                },
-                child: Text(
-                  'Expenses',
-                  style: GoogleFonts.getFont(
-                    'Poppins',
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+              left: 186,
+              top: 117,
+              child: Container(
+                width: 109,
+                height: 45,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: const Color(0xB2298CFF),
+                  borderRadius: BorderRadius.circular(30),
                 ),
               ),
             ),
-
             Positioned(
-              left: 95,
-              top: 43,
+              left: 200,
+              top: 126,
+              child: Text(
+                'Expenses',
+                style: GoogleFonts.getFont(
+                  'Poppins',
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 100,
+              top: 50,
               child: Text(
                 'Group Name',
                 style: GoogleFonts.getFont(
@@ -120,14 +418,13 @@ class MyCustomWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
+            const Positioned(
               left: 165,
               top: 279,
-              child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/codeless-app.appspot.com/o/projects%2FqvyFnglTIodQXxyXFUix%2F31c1b420a2747b9047ed79db95a36dc6348e8cb9img%206.png?alt=media&token=2e2d457b-17b7-4fb2-9b0b-af2656e0cf11',
-                width: 30,
-                height: 34,
-                fit: BoxFit.cover,
+              child: Icon(
+                Icons.add_shopping_cart,
+                size: 35,
+                color: Colors.black,
               ),
             ),
             Positioned(
@@ -195,40 +492,92 @@ class MyCustomWidget extends StatelessWidget {
                 ),
               ),
             ),
+
             Positioned(
-              left: 280,
-              top: 718,
-              child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/codeless-app.appspot.com/o/projects%2FqvyFnglTIodQXxyXFUix%2Fb6d71d750b84d8772490434675c7484858b97a3dPlus.png?alt=media&token=60c2adb4-4b98-4342-b4bf-8b0f318e6615',
-                width: 60,
-                height: 60,
-                fit: BoxFit.contain,
-              ),
-            ),
-            Positioned(
-              left: 310,
+              left: 315,
               top: 30,
-              child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/codeless-app.appspot.com/o/projects%2FqvyFnglTIodQXxyXFUix%2F5e12ebcba26476dd111c585c37f9f5a2faf26597Menu%20Vertical.png?alt=media&token=edb0ec5e-6924-4612-8fc3-a99ee3949fb1',
-                width: 30,
-                height: 30,
-                fit: BoxFit.contain,
+              child: GestureDetector(
+                onTap: () {
+                  showGeneralDialog(
+                    context: context,
+                    barrierDismissible: true,  // Allows dismissing the dialog by tapping the barrier.
+                    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+                    barrierColor: Colors.black45,  // Semi-transparent barrier color.
+                    transitionDuration: const Duration(milliseconds: 0),  // Removes animation duration.
+                    pageBuilder: (BuildContext buildContext, Animation animation, Animation secondaryAnimation) {
+                      return Align(
+                        alignment: Alignment.topRight,  // Aligns the dialog to the top right.
+                        child: Container(
+                          width: 221,  // Your specified width.
+                          height: 252,  // Your content.
+                          decoration: BoxDecoration(
+                            color: Colors.white,  // Example color.
+                            borderRadius: BorderRadius.circular(15.0),  // Rounded corners.
+                          ),
+                          margin: const EdgeInsets.only(top: 56, right: 20),  // Your specified height.
+                          child: buildMoreVertContent(),  // Adjusts the position from the top right corner.
+                        ),
+                      );
+                    },
+                    transitionBuilder: (context, animation, secondaryAnimation, child) {
+                      // Returns the child directly without any transition effects.
+                      return child;
+                    },
+                  );
+                },
+                child: const Icon(
+                  Icons.more_vert_outlined,
+                  size: 40,
+                  color: Color(0xFF5F6368),
+                ),
               ),
             ),
+
+
+
+
+
+
             Positioned(
-              left: 9,
-              top: 12,
-              child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/codeless-app.appspot.com/o/projects%2FqvyFnglTIodQXxyXFUix%2Fabef71872cbe27957569da540a4f3f138965f0adMenu.png?alt=media&token=643322b0-ec6f-4f0e-8b4c-156f65cfdb93',
-                width: 30,
-                height: 40,
-                fit: BoxFit.contain,
+              left: 0,
+              top: 30,
+              child: IconButton(
+                icon: const Icon(Icons.menu, color: Colors.black, size: 30),
+
+                onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+
               ),
-            )
+            ),
+
+
+            Positioned(
+              left: 290,
+              top: 718,
+              child: GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return buildPopupMenuContent(
+
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  );
+                },
+                child: const Icon(
+                  Icons.add_circle,
+                  size: 60,
+                    color: Color(0xB2298CFF)
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
-  }
-  }
 
+  }
+}
