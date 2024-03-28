@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import '/screens/New_group.dart';
+import '../screens/New_group.dart';
 class ChooseGroup extends StatelessWidget {
   const ChooseGroup({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Set the background color to white
-      body: Center( // Center the column
+      backgroundColor: Colors.white,
+      body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Center the children vertically
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Padding(
               padding: EdgeInsets.all(16.0),
@@ -36,13 +36,13 @@ class ChooseGroup extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 30), // Add some spacing
+            const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the New Group page
+
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AddMembers()), // Correct class name
+                  MaterialPageRoute(builder: (context) => const AddMembers()),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -64,13 +64,13 @@ class ChooseGroup extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20), // Add some spacing
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the Join Group page
+
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFA4CDFD), // Background color
+                backgroundColor: const Color(0xFFA4CDFD),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

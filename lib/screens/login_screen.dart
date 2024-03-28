@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/screens/join_group.dart';
 import 'package:untitled1/screens/signup_screen.dart';
-import 'database_helper.dart';
+import '../helper/database_helper.dart';
 
 
 class LoginScreen extends StatefulWidget {
